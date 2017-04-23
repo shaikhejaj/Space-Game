@@ -1,0 +1,110 @@
+<DOCTYPEHTML>
+<title>Space Game</title>
+<center>
+<body>
+
+<link rel="stylesheet" type="text/css" href="style.css">
+<h1>SPACE GAME</h1>
+
+<!-- credit for how show slider values: http://webtutsdepot.com/2010/04/24/html-5-slider-input-tutorial/ -->
+
+<table>
+
+
+<tr>
+<td>
+<canvas id="canvas" height="500" width="500">
+
+</td>
+</tr>
+<tr>
+<td>
+<h2>Event Log</h2>
+<p id="actionLog"> 
+You begin your journey at Earth's space dock. The crew is eager to venture out into the great unknown. 
+</p>
+
+</td>
+</tr>
+
+
+
+<div>
+<table>
+<tr>
+<th>CurrentLocation</th>
+<th>Selected Destination</th>
+</tr>
+<tr>
+<td>
+<p id="currentInfo"> Info </p>
+<br>
+<input type="number" id="howMuchEnergyToBuy"> </input> <button id="buyEnergyButton"> Buy Energy</button>
+<br>
+<input type="number" id="howMuchRepairToBuy"> </input> <button id="buyRepairButton"> Buy Repairs</button>
+</td>
+<td>
+<p id="info"> Info</p>
+<button id="goButton"> Set course </button>
+<br>
+</td>
+</tr>
+</table>
+
+</div>
+
+
+
+
+<h3> Ship Status</h3>
+<table>
+<span id="displayHealth"> </span>
+<br>
+<span id="creditsTotal"> </span>
+<br>
+<span id="displayAvailableEnergyValue"> Available Energy:  1000 </span>
+
+
+</table>
+<table>
+<tr>
+<th>Sub-system</th>
+<th>Rating</th>
+<th>Power Control</th>
+<th>Power Level</th>
+<th>Energy <br>to be used</th>
+</tr>
+<tr>
+<td>Engines</td><td>  <span id="enginesRating"> 100 </span></td> <td><input type="range" min="0" max="100" value="50" step="5" onchange="showEnginesValue(this.value)" /></td>
+<td><span id="enginesDisplayValue">50</span>%</td><td><span id="enginesModifiedRating"> </span></td>
+
+
+</tr>
+<tr>
+<td>Weapons</td><td>  <span id="weaponsRating"> 100 </span> </td> <td><input type="range" min="0" max="100" value="50" step="5" onchange="showWeaponsValue(this.value)" /></td>
+<td><span id="weaponsDisplayValue">50</span>%</td><td><span id="weaponsModifiedRating"> </span></td>
+
+</tr>
+<tr>
+
+<td>Shields</td><td>  <span id="shieldsRating"> 100 </span></td><td><input type="range" min="0" max="100" value="50" step="5" onchange="showShieldsValue(this.value)" /></td>
+<td><span id="shieldsDisplayValue">50</span>%</td><td><span id="shieldsModifiedRating"> </span></td>
+
+
+</tr>
+<tr>
+<td>Sensors</td><td>  <span id="sensorsRating"> 100 </span></td><td><input type="range" min="0" max="100" value="50" step="5" onchange="showSensorsValue(this.value)" /></td>
+<td><span id="sensorsDisplayValue">50</span>%</td><td><span id="sensorsModifiedRating"></span></td>
+</tr>
+</table>
+<p id="displayTotalEnergyValue"> </p>
+</td>
+</tr>
+</tr>
+</table>
+
+</body>
+
+<script src="gameScreen.js"></script> 
+</center>
+</html>
