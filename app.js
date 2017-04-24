@@ -7,7 +7,6 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 var passport = require('passport');
 var flash = require('express-flash');
-var mongoose = require('mongoose');
 var MongoDBStore = require('connect-mongodb-session')(session);
 
 var index = require('./routes/index');
