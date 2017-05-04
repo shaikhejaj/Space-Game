@@ -8,6 +8,7 @@ var session = require('express-session');
 var passport = require('passport');
 var flash = require('express-flash');
 var MongoDBStore = require('connect-mongodb-session')(session);
+var mongoose = require('mongoose')
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -50,6 +51,7 @@ app.use(passport.initialize());
 app.use(passport.session());         // This creates an req.user variable for logged in users.
 app.use(flash());
 
+mongoose.connect(url)
 
 app.use('/', index);
 app.use('/users', users);
