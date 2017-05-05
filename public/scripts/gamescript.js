@@ -187,20 +187,12 @@ function showSensorsValue(newValue)
 function updateValues()
 {
 displayShipHealthElement.innerHTML= "Ship Health:  "+shipHealth+" / "+shipMaxHealth;
-localStorage.shipHealth=shipHealth;
-localStorage.shipMaxHealth=shipMaxHealth;
-creditsDisplayArea.innerHTML="Total Credits:  "+parseInt(
-credits);
-localStorage.credits=credits;
+creditsDisplayArea.innerHTML="Total Credits:  "+parseInt(credits);
 //if scores change, update their new values in the document
 document.getElementById("enginesRating").innerHTML=enginesScore;
 document.getElementById("weaponsRating").innerHTML=weaponsScore;
 document.getElementById("shieldsRating").innerHTML=shieldsScore;
 document.getElementById("sensorsRating").innerHTML=sensorsScore;
-localStorage.weaponsScore=weaponsScore;
-localStorage.EnginesScore=enginesScore;
-localStorage.shieldsScore=shieldsScore;
-localStorage.sensorsScore=sensorsScore;
 
 //update the modified system values
 enginesModifiedElement.innerHTML=enginesScore*(enginesPercent/100);
@@ -212,8 +204,6 @@ sensorsModifiedElement.innerHTML=sensorsScore*(sensorsPercent/100);
 currentInfoArea.innerHTML="<h3>"+currentLocation.name+"</h3><br>"+currentLocation.description+"<br>Distance from current position: "+parseInt(getDistance(ship.x, ship.y, currentLocation.x, currentLocation.y))+" parsecs"+
 "<br> Cost to refuel: "+parseInt(currentLocation.energyCost)+" credits per unit"+"<br> Cost per points of repair: "+parseInt(currentLocation.repairCost)+"<br> <a href="+currentLocation.link+"> Go to Wikipedia page </a>";
 
-localStorage.energy=energy;
-localStorage.maxEnergy=maxEnergy;
 energyTotalDisplayArea.innerHTML= "Total Energy to be consumed:  "+getTotalEnergyUse();
 energyAvailableDisplayArea.innerHTML="Available Energy: "+energy;
 }
@@ -276,11 +266,12 @@ var energyConsumption = Math.round(distance*3);
 			{
 				audio.src="sounds/warp.wav";//set audio source
 		audio.play();//play the audio
+				energy-=energyConsumption;//deduct energy used
+
 				//set new coordinates of ship
 				ship.x=selectedLocation.x;
 				ship.y=selectedLocation.y;
 				currentLocation=selectedLocation;//update currentLocation
-				energy-=energyConsumption;//deduct energy used
 				updateValues();//to reflect change in energy
 				randomEvent();// what happens during transit
 	
