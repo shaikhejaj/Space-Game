@@ -264,7 +264,7 @@ var energyConsumption = Math.round(distance*3);
 		{
 			if (answer==true)
 			{
-				audio.src="sounds/warp.wav";//set audio source
+				audio.src="/sounds/warp.wav";//set audio source
 		audio.play();//play the audio
 				energy-=energyConsumption;//deduct energy used
 
