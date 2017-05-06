@@ -288,6 +288,8 @@ var energyConsumption = Math.round(distance*3);
 	
 //update canvas to reflect changes
 redrawCanvas();
+//update database
+updateDatabase();
 }
 
 
@@ -472,4 +474,17 @@ function addLogEntry(s)
 	actionLog.innerHTML=s;
 }
 
+function updateDatabase(){
+
+  $.ajax({
+    method:"POST",
+    url:"/updateDatabase"
+  }).done(function(data){
+    
+  }).fail(function(error){
+    console.log("cannot update database");
+    console.log(error);
+  });
+
+}
 
