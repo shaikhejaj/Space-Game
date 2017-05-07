@@ -1,3 +1,29 @@
+
+// For testing. You'll have a button that the player
+// will click to run the function?
+setInterval(savePlayerInfo, 3000);
+
+
+function savePlayerInfo() {
+	// Use AJAX to send player state to server.
+	// For example, sending shipHealth
+
+	$.ajax({
+		method:'PUT',
+		url:'/gamescreen/updatePlayerState',
+		data:{ 'shipHealth' : shipHealth }
+	}).done(function(data){
+		// If you needed to make any updates to your page once the server was done with the request, you'd do it here.
+		console.log('server has made the update')
+	}).fail(function(error){
+		// Handle errors here.
+		console.log('Error updating player state', error);
+	})
+
+
+}
+
+
 //initialize document variables
 var audio = new Audio();
 var canvas = document.getElementById("canvas");
@@ -35,7 +61,7 @@ function mousePos()
 //not necessary but here if I want it later
 	//document.getElementById("coordinates").innerHTML="X:  "+ mx+", Y:  "+my;
 
-    
+
 }
 
 // what happens when click on canvas
@@ -53,17 +79,17 @@ this.color=color;//color of circle on canvas
 this.energyCost=energyCost;//cost to refuel at location
 this.repairCost=repairCost;//cost per point of ship health repaired at this location
 drawCircle(this.x, this.y, 5, color);// draw this location's circle on the canvas
-  
+
   all_locations.push(this); //add newly created location object to array
-  
+
 };
 
 //initialize all locations
 var Sol = new Location("Sol System", "Human home system. Home to human-kind. Breathable atmosphere.", "https://en.wikipedia.org/wiki/Sun", canvas.width/2, canvas.height/2, "blue", 2, 1);
 var Alpha = new Location("Alpha Centauri System", "Nearest star system to Earth. Consists of three stars, Alpha, Beta, and Proxima. Hosts Moderately sized trading outpost.", "https://en.wikipedia.org/wiki/Alpha_Centauri", canvas.width/2+30, canvas.height/2+30, "red", 4, 2);
-var Wolf=new Location("Wolf 359", "Red dwarf, part of the Leo constellation. A small outpost can be found here for trading.", "https://en.wikipedia.org/wiki/Wolf_359", canvas.width/2-55, canvas.height/2-55, "orange", 5, 3); 
-var Tatooine =new Location("Tatooine", "A desert planet at the edge of the outer rim. You'll never find a more wretched hive of scum and villainy anywhere in the galaxy.", "https://en.wikipedia.org/wiki/Tatooine", canvas.width/2-100, canvas.height/2+155, "yellow", 7, 5); 
-var Station =new Location("Outpost 1337", "A space station in deep space. Resources are scarce out this far and the unknown is all-consuming. Many brave souls who venture out this far see the edge of the universe and are driven mad by the endless nothingness. ", "https://en.wikipedia.org/wiki/Observable_universe", canvas.width/2, canvas.height/2+240, "white", 12, 8); 
+var Wolf=new Location("Wolf 359", "Red dwarf, part of the Leo constellation. A small outpost can be found here for trading.", "https://en.wikipedia.org/wiki/Wolf_359", canvas.width/2-55, canvas.height/2-55, "orange", 5, 3);
+var Tatooine =new Location("Tatooine", "A desert planet at the edge of the outer rim. You'll never find a more wretched hive of scum and villainy anywhere in the galaxy.", "https://en.wikipedia.org/wiki/Tatooine", canvas.width/2-100, canvas.height/2+155, "yellow", 7, 5);
+var Station =new Location("Outpost 1337", "A space station in deep space. Resources are scarce out this far and the unknown is all-consuming. Many brave souls who venture out this far see the edge of the universe and are driven mad by the endless nothingness. ", "https://en.wikipedia.org/wiki/Observable_universe", canvas.width/2, canvas.height/2+240, "white", 12, 8);
 
 selectedLocation=Sol;// now var is not null
 var currentLocation=Sol;//same here
@@ -82,7 +108,7 @@ var ship = new Ship("Ship", Sol.x, Sol.y);
 //set text to indicate location of ship on map
 context.font = "12px Arial";
 context.fillStyle="white";
-context.fillText("You are here", ship.x+10, ship.y);  
+context.fillText("You are here", ship.x+10, ship.y);
 
 
 
@@ -152,7 +178,7 @@ function showEnginesValue(newValue)
 {
 	document.getElementById("enginesDisplayValue").innerHTML=newValue;
 	enginesPercent=newValue;
-	
+
 	updateValues();
 }
 
@@ -183,7 +209,7 @@ function showSensorsValue(newValue)
 		updateValues();
 }
 
-//this method updates all the html to reflect any changes to ship values  
+//this method updates all the html to reflect any changes to ship values
 function updateValues()
 {
 displayShipHealthElement.innerHTML= "Ship Health:  "+shipHealth+" / "+shipMaxHealth;
@@ -234,7 +260,7 @@ context.arc(x, y,radius,0,2*Math.PI);
 context.fillStyle=color;
 context.fill();
 
-	
+
 }
 
 //Use Pythagorian theorem to calculate distances between given points
@@ -254,7 +280,7 @@ function travel()
 
 var distance = getDistance(ship.x,ship.y,selectedLocation.x,selectedLocation.y);
 var energyConsumption = Math.round(distance*3);
-	
+
 	//check if already at this destination
 	if (distance>0)
 	{
@@ -274,9 +300,9 @@ var energyConsumption = Math.round(distance*3);
 				currentLocation=selectedLocation;//update currentLocation
 				updateValues();//to reflect change in energy
 				randomEvent();// what happens during transit
-	
+
 			}
-		
+
 		}
 		else {
 			audio.src="sounds/negative.wav";//set audio source
@@ -285,7 +311,7 @@ var energyConsumption = Math.round(distance*3);
 		}
 		//alert player they are already at the selected destination
 	}else {alert("You are already at that destination");}
-	
+
 //update canvas to reflect changes
 redrawCanvas();
 //update database
@@ -317,19 +343,19 @@ function buyEnergy()
 {
 	var units = buyEnergyInput.value;//get number in input area
 	var total= units*currentLocation.energyCost;//calculate total cost of input units
-	
+
 	//if player has enough to make purchase
 	if (credits >= total)
 	{
 		audio.src="sounds/buy.wav";//set audio source
 		audio.play();//play the audio
-		
+
 		//display event in event log area in html
 		addLogEntry("Purchased "+parseInt(units)+" units of energy. "+parseInt(total)+" credits were deducted from your account.");
 		credits-=total;//deduct purchase cost from available credits
 		energy+=Number(units);//add the bought energy to energy reserves
 		updateValues();//update the values that have changed in the html
-		
+
 	}
 	else
 	{
@@ -350,7 +376,7 @@ function buyRepair()
 	{
 		audio.src="sounds/buy.wav";//set audio source
 		audio.play();//play the audio
-		
+
 		//update log entry area
 		addLogEntry("Purchased "+parseInt(units)+" points of repair from engineers at "+currentLocation.name+"."+parseInt(total)+" credits were deducted from your account to cover the repairs to your ship.");
 		credits-=total;//deduct credits from account
@@ -361,13 +387,13 @@ function buyRepair()
 			shipHealth=maxShipHealth;
 		}
 		updateValues();//update the changes in html
-		
+
 	}
 	else
 	{
 		audio.src="sounds/negative.wav";//set the audio source
 		audio.play();//play the audio
-		
+
 		//update the log entry area with this message
 		addLogEntry("You do not have enough credits to purchase this amount of repairs.");
 	}
@@ -396,7 +422,7 @@ var weaponsFactor = weaponsScore*(weaponsPercent/100)
 	//if got there fast enough
 	if (enginesFactor > rand)
 	{
-		
+
 		//if sensors value is high enough
 		if (sensorsFactor > rand)
 		{
@@ -416,13 +442,13 @@ var weaponsFactor = weaponsScore*(weaponsPercent/100)
 		else
 		{
 		addLogEntry("Your journey was uneventful.");
-			
+
 		}
 	}
 	else
 	{
 		//call the enemyEncounter function because found an enemy
-		enemyEncounter(); 
+		enemyEncounter();
 	}
 }
 //method to generate random enemy encounter on travel
@@ -439,25 +465,25 @@ var weaponsFactor = weaponsScore*(weaponsPercent/100)
 	var enemyHealth=randomInt(100);
 	var totalDamage= enemyDamage - shieldsFactor;//ship shields negate some damage
 	var playerDamage= Math.floor(weaponsFactor+randomInt(weaponsFactor/4));// set ship's damage output, randomness for fun
-	
+
 	//if damage is below 0, don't want to heal the player
 	if (totalDamage<0)
 	{
 		totalDamage=0;
 	}
-	
+
 	shipHealth-=totalDamage;//deal the calculated damage to ship
 	audio.src="sounds/alarm.wav";
 	audio.play();
 	//set the message string
 	var str = "You encounter a hostile ship! You are forced to defend yourself. Your ship takes "+totalDamage+" damage. You deal "+playerDamage+" damage to the enemy ship.";
 	var extraString="";
-	
+
 	//if the ship is below 0 health
 	if (shipHealth < 0)
 	{
 		extraString = "Your ship is destroyed.";
-		
+
 	}
 	else
 	{
@@ -480,11 +506,10 @@ function updateDatabase(){
     method:"POST",
     url:"/updateDatabase"
   }).done(function(data){
-    
+
   }).fail(function(error){
     console.log("cannot update database");
     console.log(error);
   });
 
 }
-
