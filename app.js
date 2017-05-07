@@ -12,6 +12,7 @@ var mongoose = require('mongoose')
 
 var index = require('./routes/index');
 var users = require('./routes/users');
+var gamescreen = require('./routes/gamescreen');
 
 var app = express();
 
@@ -55,9 +56,11 @@ mongoose.connect(url)
 
 app.use('/', index);
 app.use('/users', users);
-app.get('/gamescreen', function(req, res){
-  res.render('gamescreen');
-});
+app.use('/gamescreen/', gamescreen)
+// Move route handling to code in routes/gamescreen.js
+// app.get('/gamescreen', function(req, res){
+//   res.render('gamescreen');
+// });
 
 
 
