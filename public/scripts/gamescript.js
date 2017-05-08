@@ -1,7 +1,7 @@
 
 // For testing. You'll have a button that the player
 // will click to run the function?
-setInterval(savePlayerInfo, 3000);
+setInterval(savePlayerInfo, 30000);
 
 
 function savePlayerInfo() {
@@ -11,7 +11,9 @@ function savePlayerInfo() {
 	$.ajax({
 		method:'PUT',
 		url:'/gamescreen/updatePlayerState',
-		data:{ 'shipHealth' : shipHealth }
+		data:{ 'shipHealth' : shipHealth,
+		'energy' : energy
+		}
 	}).done(function(data){
 		// If you needed to make any updates to your page once the server was done with the request, you'd do it here.
 		console.log('server has made the update')
@@ -500,16 +502,3 @@ function addLogEntry(s)
 	actionLog.innerHTML=s;
 }
 
-function updateDatabase(){
-
-  $.ajax({
-    method:"POST",
-    url:"/updateDatabase"
-  }).done(function(data){
-
-  }).fail(function(error){
-    console.log("cannot update database");
-    console.log(error);
-  });
-
-}

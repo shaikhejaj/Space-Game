@@ -24,10 +24,23 @@ router.put('/updatePlayerState', isLoggedIn, function(req, res, next){
   console.log('The JSON received is ' + JSON.stringify(req.body));
 
   // For example, shipHealth,
-  console.log('The players shipHealth is ' + req.body.shipHealth);
+  console.log('The players stats are \n ShipHealth: ' + req.body.shipHealth+'\n credits: '+req.body.credits+'\n Energy: '+req.body.energy);
 
-  // TODO save the data in req.body to the database, associating it with the current user.
+    var filter = { 'name' : req.user.local.username };
+  var update = { $set : { 
+  'shipHealth' : req.body.shipHealth,
+  'energy' : req.body.energy,
+  'credits' : req.body.credits
+  }};
 
+  
+req.db.collection('users').findOneAndUpdate(filter, update, function(err) {
+if (!err){
+	console.log("updated userData");
+}else{
+	console.log("Error updating userData");
+}
+});//end of update database callback
   // If no errors, and you don't need to send any data back, you can just send a 200 (OK) message.
   res.sendStatus(200);  // End the request.
 })
