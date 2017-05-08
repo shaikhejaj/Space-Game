@@ -53,6 +53,11 @@ app.use(passport.session());         // This creates an req.user variable for lo
 app.use(flash());
 
 mongoose.connect(url)
+ 
+ app.use('/', function(req, res, next){
+    req.db = db;
+    next();
+});
 
 app.use('/', index);
 app.use('/users', users);

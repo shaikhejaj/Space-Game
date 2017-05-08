@@ -14,7 +14,18 @@ username: String
 },
 
   signupDate : { type: Date, default: Date.now() },
+name : String,
+  shipHealth : Number,
+credits : Number,
+energy : Number,
 
+  
+  
+  
+  
+  
+  
+  
   favorites : {
     color: String,
     luckyNumber: Number

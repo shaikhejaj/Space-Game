@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 
+var User = require('../models/user');
+
 
 function isLoggedIn(req, res, next) {
   if (req.isAuthenticated()) {
@@ -26,17 +28,27 @@ router.put('/updatePlayerState', isLoggedIn, function(req, res, next){
   // For example, shipHealth,
   console.log('The players stats are \n ShipHealth: ' + req.body.shipHealth+'\n credits: '+req.body.credits+'\n Energy: '+req.body.energy);
 
-    var filter = { 'name' : req.user.local.username };
-  var update = { $set : { 
-  'shipHealth' : req.body.shipHealth,
-  'energy' : req.body.energy,
-  'credits' : req.body.credits
-  }};
+    //var filter = { 'name' : req.user.local.username };
+  //var update = { $set : { 
+  //'shipHealth' : req.body.shipHealth,
+  //'energy' : req.body.energy,
+  //'credits' : req.body.credits
+  //}};
+
+  var user = User({
+	  name : req.user.local.username,
+		  shipHealth : req.body.shipHealth,
+  energy : req.body.energy,
+	  credits : req.body.credits
+  
+  });  //Create new user from req.body
 
   
-req.db.collection('users').findOneAndUpdate(filter, update, function(err) {
+  
+  
+user.save(function(err, newuser){  
 if (!err){
-	console.log("updated userData");
+	console.log("updated userData \n"+newuser);
 }else{
 	console.log("Error updating userData");
 }
