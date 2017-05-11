@@ -29,24 +29,31 @@ router.put('/updatePlayerState', isLoggedIn, function(req, res, next){
   console.log('The players stats are \n ShipHealth: ' + req.body.shipHealth+'\n credits: '+req.body.credits+'\n Energy: '+req.body.energy);
 
     //var filter = { 'name' : req.user.local.username };
-  //var update = { $set : { 
+  //var update = { $set : {
   //'shipHealth' : req.body.shipHealth,
   //'energy' : req.body.energy,
   //'credits' : req.body.credits
   //}};
 
-  var user = User({
-	  name : req.user.local.username,
-		  shipHealth : req.body.shipHealth,
-  energy : req.body.energy,
-	  credits : req.body.credits
-  
-  });  //Create new user from req.body
+  var user = req.user;
+  user.shipHealth = req.body.shipHealth;
+  user.energy = req.body.energy;
+  user.credits = req.body.credits;   // todo save any other things too
+  user.save();
 
-  
-  
-  
-user.save(function(err, newuser){  
+
+  // var user = User({
+	//   name : req.user.local.username,
+	// 	  shipHealth : req.body.shipHealth,
+  // energy : req.body.energy,
+	//   credits : req.body.credits
+  //
+  // });  //Create new user from req.body
+
+
+
+
+user.save(function(err, newuser){
 if (!err){
 	console.log("updated userData \n"+newuser);
 }else{
