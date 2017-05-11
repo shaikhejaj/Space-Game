@@ -9,6 +9,7 @@ var passport = require('passport');
 var flash = require('express-flash');
 var MongoDBStore = require('connect-mongodb-session')(session);
 var mongoose = require('mongoose')
+var MongoClient = require('mongodb').MongoClient;
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -53,12 +54,15 @@ app.use(passport.session());         // This creates an req.user variable for lo
 app.use(flash());
 
 mongoose.connect(url)
+
+MongoClient.connect(url, function(err, db) {
  
  app.use('/', function(req, res, next){
     req.db = db;
     next();
-});
+  });
 
+  
 app.use('/', index);
 app.use('/users', users);
 app.use('/gamescreen/', gamescreen)
@@ -86,5 +90,5 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
+});//end of MongoDB connect
 module.exports = app;
