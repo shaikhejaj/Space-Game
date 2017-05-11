@@ -1,18 +1,21 @@
-
-// For testing. You'll have a button that the player
-// will click to run the function?
+//update database every 30 seconds
 setInterval(savePlayerInfo, 30000);
 
 
 function savePlayerInfo() {
 	// Use AJAX to send player state to server.
-	// For example, sending shipHealth
-
+	
 	$.ajax({
 		method:'PUT',
 		url:'/gamescreen/updatePlayerState',
 		data:{ 'shipHealth' : shipHealth,
-		'energy' : energy
+		'energy' : energy,
+		'shipMaxHealth' : shipMaxHealth,
+		'enginesScore' : enginesScore,
+		'weaponsScore' : weaponsScore,
+		'shieldScore' : shieldsScore,
+		'sensorsScore' : sensorsScore,
+		'credits' : credits
 		}
 	}).done(function(data){
 		// If you needed to make any updates to your page once the server was done with the request, you'd do it here.

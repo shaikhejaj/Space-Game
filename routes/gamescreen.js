@@ -26,30 +26,22 @@ router.put('/updatePlayerState', isLoggedIn, function(req, res, next){
   console.log('The JSON received is ' + JSON.stringify(req.body));
 
   // For example, shipHealth,
-  console.log('The players stats are \n ShipHealth: ' + req.body.shipHealth+'\n credits: '+req.body.credits+'\n Energy: '+req.body.energy);
+  console.log('The players stats are \n ShipHealth: ' + req.body.shipHealth+'\n credits: '+req.body.credits+'\n Energy: '+req.body.energy)+"\n shipMaxHealth: "+req.body.shipMaxHealth;
 
-    //var filter = { 'name' : req.user.local.username };
-  //var update = { $set : {
-  //'shipHealth' : req.body.shipHealth,
-  //'energy' : req.body.energy,
-  //'credits' : req.body.credits
-  //}};
-
+    
   var user = req.user;
   user.shipHealth = req.body.shipHealth;
+  user.shipMaxHealth = req.body.shipMaxHealth;
+  user.enginesScore = req.body.enginesScore;
+  user.weaponsScore = req.body.weaponsScore;
+  user.shieldsScore = req.body.shieldsScore;
+  user.sensorsScore = req.body.sensorsScore;
   user.energy = req.body.energy;
-  user.credits = req.body.credits;   // todo save any other things too
+  user.credits = req.body.credits;   
   user.save();
 
 
-  // var user = User({
-	//   name : req.user.local.username,
-	// 	  shipHealth : req.body.shipHealth,
-  // energy : req.body.energy,
-	//   credits : req.body.credits
-  //
-  // });  //Create new user from req.body
-
+  
 
 
 
@@ -63,22 +55,6 @@ if (!err){
   // If no errors, and you don't need to send any data back, you can just send a 200 (OK) message.
   res.sendStatus(200);  // End the request.
 })
-
-
-//update database
-router.put('/updateDatabase', function(req, res, next) {
-
-  var filter = { '_id' : req.body._id };
-  var update = { $set : { 'color' : req.body.color }};
-
-  req.db.collection('userData').findOneAndUpdate(filter, update, function(err) {
-    if (err) {
-      return next(err);
-    }
-    return res.send({'color' : req.body.color})
-  })
-});
-
 
 
 
