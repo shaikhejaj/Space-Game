@@ -15,9 +15,14 @@ username: String
 
   signupDate : { type: Date, default: Date.now() },
 name : String,
-  shipHealth : Number,
+shipHealth : Number,
 credits : Number,
 energy : Number,
+shipMaxHealth : Number,
+weaponsScore : Number,
+enginesScore : Number,
+shieldsScore : Number,
+sensorsScore : Number,
 
   
   
